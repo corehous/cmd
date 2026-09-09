@@ -1,0 +1,15 @@
+# 아래의 코드는 HTML 파일 head에 삽입한다.
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Asta+Sans:wght@300..800&family=Hahmlet:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+html,
+body,
+body * {
+    font-family: "Noto Sans KR", "Asta Sans", "Hahmlet", sans-serif;
+}
+</style>
