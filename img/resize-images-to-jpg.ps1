@@ -10,7 +10,7 @@
 # 결과 파일은 resized-jpg 폴더에 저장
 
 
-$maxWidth = 3840
+$maxWidth = 1920
 $outputDir = "resized-jpg"
 
 
