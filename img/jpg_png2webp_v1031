@@ -10,33 +10,14 @@ $files = Get-ChildItem -File |
 
 foreach ($file in $files) {
 
-    # Get original image dimensions
-    $dimensions = magick identify -format "%w %h" "$($file.FullName)"
-
-    if ($LASTEXITCODE -ne 0 -or -not $dimensions) {
-        Write-Warning "Failed to read: $($file.Name)"
-        continue
-    }
-
-    $width, $height = $dimensions -split '\s+'
-
-    # Generate 3 random lowercase letters
-    $random = -join (1..3 | ForEach-Object {
-        [char](Get-Random -Minimum 97 -Maximum 123)
-    })
-
-    # Build output filename: widthxheight + 3 random letters
-    $newName = "${width}x${height}${random}.webp"
+    # Build output filename using original name
+    $newName = "$($file.BaseName).webp"
     $outputPath = Join-Path $outputFolder $newName
 
-    # Prevent filename collisions
-    while (Test-Path $outputPath) {
-        $random = -join (1..3 | ForEach-Object {
-            [char](Get-Random -Minimum 97 -Maximum 123)
-        })
-
-        $newName = "${width}x${height}${random}.webp"
-        $outputPath = Join-Path $outputFolder $newName
+    # Prevent overwriting existing files
+    if (Test-Path $outputPath) {
+        Write-Warning "Already exists: $newName"
+        continue
     }
 
     # Convert to WebP and remove metadata
