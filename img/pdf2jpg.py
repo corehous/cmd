@@ -1,14 +1,22 @@
 @'
-from pdf2image import convert_from_path
+import fitz
 import os
 
+# Current folder
 for pdf in os.listdir():
     if pdf.lower().endswith(".pdf"):
-        images = convert_from_path(pdf, dpi=200)
-        name = os.path.splitext(pdf)[0]
+        try:
+            doc = fitz.open(pdf)
+            name = os.path.splitext(pdf)[0]
 
-        for i, image in enumerate(images, 1):
-            image.save(f"{name}_{i}.jpg", "JPEG")
+            for i, page in enumerate(doc, 1):
+                pix = page.get_pixmap(dpi=200)
+                pix.save(f"{name}_{i}.jpg")
 
-        print(f"완료: {pdf}")
+            print(f"완료: {pdf} ({len(doc)}페이지)")
+            doc.close()
+
+        except Exception as e:
+            print(f"실패: {pdf} - {e}")
+
 '@ | python
